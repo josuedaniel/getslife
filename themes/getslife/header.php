@@ -3,4 +3,6 @@
     <head>
         <?php wp_head(); ?>
     </head>
-</html>
+    <body> 
+        <h1> Getslife </h1>
+    
