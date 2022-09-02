@@ -10,6 +10,17 @@ function getslife_files() {
     wp_enqueue_style('getslife_extra_styles', get_theme_file_uri('/build/index.css'));
 }
 
+//hook to load scripts found in the function getslife_files
 add_action('wp_enqueue_scripts', 'getslife_files');
+
+
+// function to 
+function getslife_features() {
+
+    //adds the theme support to display titles dynamically in the tab on the browser
+    add_theme_support('title-tag');
+}
+//action hook for wordpress to load features from getslife_features after setting up the theme
+add_action('after_setup_theme', 'getslife_features');
 
 ?>
