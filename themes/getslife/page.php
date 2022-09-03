@@ -13,24 +13,44 @@ get_header();
     </div>
 
     <div class="container container--narrow page-section">
-      <div class="metabox metabox--position-up metabox--with-home-link">
-        <p>
-          <a class="metabox__blog-home-link" href="#"><i class="fa fa-home" aria-hidden="true"></i> Back to About Us</a> <span class="metabox__main">Our History</span>
-        </p>
-      </div>
+      
+        <?php
+        // get the post parent id if it exists, otherwise its 0 which is false
+            $theParent = wp_get_post_parent_id(get_the_ID());
+        //conditional to only show the meta box if the current page is a child page
+        //a parent page won't have anything for $theParent 
+            if ($theParent) { ?>
+                <div class="metabox metabox--position-up metabox--with-home-link">
+                    <p>
+                        <a class="metabox__blog-home-link" href="<?php echo 
+                            // Using $theParent below allows us to get the permalink for the parent page
+                        get_permalink($theParent); ?>"><i class="fa fa-home" aria-hidden="true"></i> 
+                            <!-- Using $theParent below allows us to get the name of the parent page dynamically -->
+                            <?php echo get_the_title($theParent); ?>
+                        </a> 
+                        <span class="metabox__main">
+                            <!-- Outputs the title of the current page -->
+                            <?php the_title(); ?>
+                        </span>
+                    </p>
+                </div>
+                
+        <?php   }
+        ?>
+        
 
-      <!--
-      <div class="page-links">
-        <h2 class="page-links__title"><a href="#">About Us</a></h2>
-        <ul class="min-list">
-          <li class="current_page_item"><a href="#">Our History</a></li>
-          <li><a href="#">Our Goals</a></li>
-        </ul>
-      </div> -->
+        <!--
+        <div class="page-links">
+            <h2 class="page-links__title"><a href="#">About Us</a></h2>
+            <ul class="min-list">
+            <li class="current_page_item"><a href="#">Our History</a></li>
+            <li><a href="#">Our Goals</a></li>
+            </ul>
+        </div> -->
 
-      <div class="generic-content">
-        <?php the_content(); ?>
-      </div>
+        <div class="generic-content">
+            <?php the_content(); ?>
+        </div>
     </div>
         
         
