@@ -15,18 +15,18 @@
                     <nav class="nav-list">
                         
                     <?php
-
+                        /*
                         //wp function to set the menu to footerLocationOne from the functions file
                         wp_nav_menu(array(
                             'theme_location' => 'footerLocationOne'
-                        ));
+                        ));*/
                     ?>
-                        <!-- <ul>
+                        <ul>
                             <li><a href="<?php echo site_url('/about-us') ?>">About Us</a></li>
                             <li><a href="#">Learning</a></li>
                             <li><a href="#">Events</a></li>
                             <li><a href="#">Gardens</a></li>
-                        </ul> -->
+                        </ul> 
                     </nav>
                 </div>
 
@@ -37,16 +37,16 @@
                     <?php
 
                         //wp function to set the menu to footerLocationTwo from the functions file
-                        wp_nav_menu(array(
+                        /*wp_nav_menu(array(
                             'theme_location' => 'footerLocationTwo'
-                        ));
+                        ));*/
                     ?>
                     
-                    <!--<ul>
+                    <ul>
                         <li><a href="#">Legal</a></li>
                         <li><a href="<?php echo site_url('/privacy-policy') ?>">Privacy</a></li>
                         <li><a href="#">Careers</a></li>
-                    </ul> -->
+                    </ul> 
                     </nav>
                 </div>
             </div>
