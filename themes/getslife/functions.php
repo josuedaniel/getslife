@@ -19,7 +19,7 @@ function getslife_features() {
 
     //adds the theme support to display titles dynamically in the tab on the browser
     add_theme_support('title-tag');
-
+/*
     // adds support so the wordpress will show the menu option under appearance in the admin screen, and with the header file puts the menu in the header location
     register_nav_menu('headerMenuLocation', 'Header Menu Location');
 
@@ -28,7 +28,7 @@ function getslife_features() {
 
     // adds support so the wordpress will show the menu option under appearance in the admin screen, and with the footer file puts the menu in the footer location two
     register_nav_menu('footerLocationTwo', 'Footer Location Two');
-
+*/
 
 }
 //action hook for wordpress to load features from getslife_features after setting up the theme

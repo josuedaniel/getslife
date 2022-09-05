@@ -23,7 +23,8 @@
         ?>
           
           <ul>
-            <li <?php if (is_page('about-us') or wp_get_post_parent_id(0) == 16) echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/about-us') ?>">About Us</a></li>
+            <!-- if the page is about us or this then the class current-menu-item will be applied -->
+            <li <?php if (is_page('about-us') or wp_get_post_parent_id(0) == 10) echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/about-us') ?>">About Us</a></li>
             <li><a href="#">Learning</a></li>
             <li><a href="#">Events</a></li>
             <li><a href="#">Gardens</a></li>
