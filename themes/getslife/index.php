@@ -21,7 +21,7 @@ get_header(); ?>
 
                 <div class="metabox">
                     <!-- link to Author's archive page, show a formatted published date, and show the categories the psot belongs to seperated by the parameter given  -->
-                    <p>Posted be <?php the_author_posts_link(); ?> on <?php the_time('n.j.y'); ?> in <?php echo get_the_category_list(', '); ?></p>
+                    <p>Posted by <?php the_author_posts_link(); ?> on <?php the_time('n.j.y'); ?> in <?php echo get_the_category_list(', '); ?></p>
                 </div>
 
                 <div class="generic-content">
@@ -29,7 +29,9 @@ get_header(); ?>
                     <p><a  class="btn btn--blue" href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
                 </div>
             </div>
-    <?php   } ?>
+    <?php   } 
+    echo paginate_links(); ?>
+    
     </div>
 
 
