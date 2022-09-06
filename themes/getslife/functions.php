@@ -34,4 +34,5 @@ function getslife_features() {
 //action hook for wordpress to load features from getslife_features after setting up the theme
 add_action('after_setup_theme', 'getslife_features');
 
+
 ?>
