@@ -5,6 +5,11 @@ function getslife_post_types() {
     // Register new post type Event with WP function. Google the function
     register_post_type('event', array(
         
+        // Rewrite the slug for the website
+        'rewrite' => array('slug' => 'events'),
+
+        //makes the archive page for events available
+        'has_archive' => true,
         //Make the Event CPT visible to public users
         'public' => true,
 
