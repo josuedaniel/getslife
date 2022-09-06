@@ -28,6 +28,7 @@
             <li><a href="#">Learning</a></li>
             <li><a href="#">Events</a></li>
             <li><a href="#">Gardens</a></li>
+            <!-- if the post type is post assign the class current-menu-item to this li -->
             <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/blog'); ?>">Blog</a></li>
           </ul> 
         </nav>
