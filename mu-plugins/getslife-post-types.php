@@ -5,6 +5,9 @@ function getslife_post_types() {
     // Register new post type Event with WP function. Google the function
     register_post_type('event', array(
         
+        // enable supports for excerpts, title and editor must be placed in by default
+        'supports' => array('title', 'editor', 'excerpt'),
+        
         // Rewrite the slug for the website
         'rewrite' => array('slug' => 'events'),
 
