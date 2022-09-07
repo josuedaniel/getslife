@@ -35,4 +35,26 @@ function getslife_features() {
 add_action('after_setup_theme', 'getslife_features');
 
 
+// Adjust the the way queries work when needed
+function getslife_adjust_queries($query) {
+    
+    // If user is not on an admin screen, the page is the event archive post type, and the queryis the main query 
+    if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) {
+        // only show 1 post per page
+        $today = date('Ymd');
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            array(
+              'key' => 'event_date',
+              'compare' => '>=',
+              'value' => $today,
+              'type' => 'numeric'
+            )
+           ));
+    }
+}
+
+add_action('pre_get_posts', 'getslife_adjust_queries');
 ?>
