@@ -33,6 +33,40 @@ function getslife_post_types() {
         //  Google wordpress dashicons 
         'menu_icon' => 'dashicons-calendar'
     ));
+
+
+
+    // Register new post type Role with WP function. Google the function
+    register_post_type('role', array(
+        
+        // enable supports for title and editor must be placed in by default
+        'supports' => array('title', 'editor'),
+        
+        // Rewrite the slug for the website
+        'rewrite' => array('slug' => 'roles'),
+
+        //makes the archive page for roles available
+        'has_archive' => true,
+        //Make the Role CPT visible to public users
+        'public' => true,
+
+        //Make the Role CPT show up in the modern block editor
+        'show_in_rest' => true,
+        
+        //Add an array to control display of Role CPT labels in wp admin
+        'labels' => array(
+            'name' => 'Roles',
+
+            // Change default WP admin menu to show Add New Roles instead of Add New Post
+            'add_new_item' => 'Add New Role',
+            'edit_item' => 'Edit Role',
+            'all_items' => 'All Roles',
+            'singular_name' => 'Role'
+        ),
+
+        //  Google wordpress dashicons 
+        'menu_icon' => 'dashicons-awards'
+    ));
 }
 
 // action hook 

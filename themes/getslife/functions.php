@@ -37,8 +37,15 @@ add_action('after_setup_theme', 'getslife_features');
 
 // Adjust the the way queries work when needed
 function getslife_adjust_queries($query) {
+
+    // If user is not on an admin screen, the page is the role archive post type, and the query is the main query for that page
+    if (!is_admin() AND is_post_type_archive('role') AND is_main_query()) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('post_per_page', -1);
+    }
     
-    // If user is not on an admin screen, the page is the event archive post type, and the queryis the main query 
+    // If user is not on an admin screen, the page is the event archive post type, and the query is the main query for that page
     if (!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()) {
         // only show 1 post per page
         $today = date('Ymd');
