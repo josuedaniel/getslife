@@ -28,6 +28,7 @@
             <li><a href="#">Learning</a></li>
             <li <?php if (get_post_type() == 'event' OR is_page('past-events')) echo 'class="current-menu-item"'; ?>><a href="<?php echo get_post_type_archive_link('event'); ?>">Events</a></li>
             <li><a href="#">Gardens</a></li>
+            <li <?php if (get_post_type() == 'role') echo 'class="current-menu-item"' ?>><a href="<?php echo get_post_type_archive_link('role'); ?>">Roles</a></li>
             <!-- if the post type is post assign the class current-menu-item to this li -->
             <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>><a href="<?php echo site_url('/blog'); ?>">Blog</a></li>
           </ul> 
