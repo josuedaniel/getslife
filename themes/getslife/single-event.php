@@ -28,6 +28,34 @@ get_header();
             </div>
 
             <div class="generic-content"><?php the_content(); ?></div>
+
+            <?php 
+
+                // grab the value from related_roles and assign it to the variable $relatedRoles
+                $relatedRoles = get_field('related_roles');
+                //print_r($relatedRoles);
+
+                // if $relatedRoles exist
+                if ($relatedRoles) {
+
+                    // output an hr 
+                    echo '<hr class="section-break">';
+
+                    //output a header
+                    echo '<h2 class="headline headline--medium">Related Role(s)</h2>';
+
+                    // Create an ul
+                    echo '<ul class="link-list min-list">';
+
+                    // Display the title in a li as a link to its own page for each $relatedRole that exists
+                    foreach ($relatedRoles as $role) { ?>
+                        <li><a href="<?php echo get_the_permalink($role); ?>"><?php echo get_the_title($role); ?></a></li>
+                    <?php }
+
+                    echo '</ul>';
+                }
+                
+            ?>
         </div>
         
     <?php }
