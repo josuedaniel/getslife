@@ -67,6 +67,34 @@ function getslife_post_types() {
         //  Google wordpress dashicons 
         'menu_icon' => 'dashicons-awards'
     ));
+
+
+    // Register new post type Farmer with WP function register_post_type. Google the function
+    register_post_type('farmer', array(
+        
+        // enable supports for title and editor must be placed in by default
+        'supports' => array('title', 'editor'),
+        
+        //Make the Farmer CPT visible to public users
+        'public' => true,
+
+        //Make the Farmer CPT show up in the modern block editor
+        'show_in_rest' => true,
+        
+        //Add an array to control display of Farmer CPT labels in wp admin
+        'labels' => array(
+            'name' => 'Farmers',
+
+            // Change default WP admin menu to show Add New Farmers instead of Add New Post
+            'add_new_item' => 'Add New Farmer',
+            'edit_item' => 'Edit Farmer',
+            'all_items' => 'All Farmers',
+            'singular_name' => 'Farmer'
+        ),
+
+        //  Google wordpress dashicons 
+        'menu_icon' => 'dashicons-carrot'
+    ));
 }
 
 // action hook 

@@ -30,6 +30,36 @@ get_header();
             <div class="generic-content"><?php the_content(); ?></div>
 
             <?php 
+
+
+            $relatedFarmers = new WP_Query(array(
+                'posts_per_page' => -1,
+                'post_type' => 'farmer',
+                'orderby' => 'title',
+                'order' => 'ASC',
+                'meta_query' => array(
+                    array(
+                        'key' => 'related_roles',
+                        'compare' => 'like',
+                        'value' => '"'. get_the_ID().'"'
+                    )
+            )
+            ));
+            
+                if ($relatedFarmers->have_posts()) {
+                    echo '<hr class="section-break">';
+                    echo '<h2 class="headline headline--medium">Upcoming ' .get_the_title() . 's. ';
+
+                    while ($relatedFarmers->have_posts()) {
+                    $relatedFarmers->the_post(); ?>
+
+                    <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    
+                    <?php  }
+                }
+
+                wp_reset_postdata(); 
+
                 $today = date('Ymd');
                 $homePageEvents = new WP_Query(array(
                 'posts_per_page' => 2,
