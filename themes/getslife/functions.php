@@ -25,6 +25,7 @@ function getslife_features() {
     // create a custom image name, set its size, and set crop to true
     add_image_size('farmerLandscape', 400, 260, true);
     add_image_size('farmerPortrait', 480, 650, true);
+    add_image_size('pageBanner', 1500, 350, true);
     
 /*
     // adds support so the wordpress will show the menu option under appearance in the admin screen, and with the header file puts the menu in the header location
