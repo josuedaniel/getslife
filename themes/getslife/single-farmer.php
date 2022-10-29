@@ -31,7 +31,7 @@ get_header();
                     echo '<hr class="section-break">';
 
                     //output a header
-                    echo '<h2 class="headline headline--medium">Related Role(s)</h2>';
+                    echo '<h2 class="headline headline--medium">Specialties</h2>';
 
                     // Create an ul
                     echo '<ul class="link-list min-list">';
