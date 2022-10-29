@@ -73,7 +73,7 @@ function getslife_post_types() {
     register_post_type('farmer', array(
         
         // enable supports for title and editor must be placed in by default
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor', 'thumbnail'),
         
         //Make the Farmer CPT visible to public users
         'public' => true,

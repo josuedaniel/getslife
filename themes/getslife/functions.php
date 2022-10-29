@@ -19,6 +19,7 @@ function getslife_features() {
 
     //adds the theme support to display titles dynamically in the tab on the browser
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
 /*
     // adds support so the wordpress will show the menu option under appearance in the admin screen, and with the header file puts the menu in the header location
     register_nav_menu('headerMenuLocation', 'Header Menu Location');
