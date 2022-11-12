@@ -1,21 +1,14 @@
 <?php
-get_header(); ?>
+get_header(); 
+pageBanner(array(
 
-    <div class="page-banner">   
-        <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>)"></div>
-        <div class="page-banner__content container container--narrow">
-            <h1 class="page-banner__title">
-            <!-- output the archive title dynamically -->
-            <?php the_archive_title(); ?>
-            <!-- hardcode the category or author name into the title if we didn't want to use the archive title -->    
-            <?php /*if (is_category()) {
-                single_cat_title();
-            } 
-            if (is_author()) {
-                echo 'Posts by '; the_author();
-            }*/ ?>
-            
-        </h1>
+                // use the get_the_archive WordPress functions to let WP handle output to the page
+    'title' => get_the_archive_title(),
+    'subtitlte' => get_the_archive_description()
+));
+?>
+
+    
             <div class="page-banner__intro">
                 <!-- gets the description set in the wordpress admin --> 
             <p><?php the_archive_description(); ?></p>
