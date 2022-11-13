@@ -1,20 +1,329 @@
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _css_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/style.scss */ "./css/style.scss");
+/* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
+/* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
+/* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/GoogleMap */ "./src/modules/GoogleMap.js");
+/* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+
+
+// Our modules / classes
+
+
+
+
+
+// Instantiate a new object using our modules/classes
+const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
+const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
+const googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"]();
+
+/***/ }),
+
+/***/ "./src/modules/GoogleMap.js":
+/*!**********************************!*\
+  !*** ./src/modules/GoogleMap.js ***!
+  \**********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+class GMap {
+  constructor() {
+    document.querySelectorAll(".acf-map").forEach(el => {
+      this.new_map(el);
+    });
+  }
+  new_map($el) {
+    var $markers = $el.querySelectorAll(".marker");
+    var args = {
+      zoom: 16,
+      center: new google.maps.LatLng(0, 0),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map($el, args);
+    map.markers = [];
+    var that = this;
+
+    // add markers
+    $markers.forEach(function (x) {
+      that.add_marker(x, map);
+    });
+
+    // center map
+    this.center_map(map);
+  } // end new_map
+
+  add_marker($marker, map) {
+    var latlng = new google.maps.LatLng($marker.getAttribute("data-lat"), $marker.getAttribute("data-lng"));
+    var marker = new google.maps.Marker({
+      position: latlng,
+      map: map
+    });
+    map.markers.push(marker);
+
+    // if marker contains HTML, add it to an infoWindow
+    if ($marker.innerHTML) {
+      // create info window
+      var infowindow = new google.maps.InfoWindow({
+        content: $marker.innerHTML
+      });
+
+      // show info window when marker is clicked
+      google.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+      });
+    }
+  } // end add_marker
+
+  center_map(map) {
+    var bounds = new google.maps.LatLngBounds();
+
+    // loop through all markers and create bounds
+    map.markers.forEach(function (marker) {
+      var latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+      bounds.extend(latlng);
+    });
+
+    // only 1 marker?
+    if (map.markers.length == 1) {
+      // set center of map
+      map.setCenter(bounds.getCenter());
+      map.setZoom(16);
+    } else {
+      // fit to bounds
+      map.fitBounds(bounds);
+    }
+  } // end center_map
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (GMap);
+
+/***/ }),
+
+/***/ "./src/modules/HeroSlider.js":
+/*!***********************************!*\
+  !*** ./src/modules/HeroSlider.js ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _glidejs_glide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @glidejs/glide */ "./node_modules/@glidejs/glide/dist/glide.esm.js");
+
+class HeroSlider {
+  constructor() {
+    if (document.querySelector(".hero-slider")) {
+      // count how many slides there are
+      const dotCount = document.querySelectorAll(".hero-slider__slide").length;
+
+      // Generate the HTML for the navigation dots
+      let dotHTML = "";
+      for (let i = 0; i < dotCount; i++) {
+        dotHTML += `<button class="slider__bullet glide__bullet" data-glide-dir="=${i}"></button>`;
+      }
+
+      // Add the dots HTML to the DOM
+      document.querySelector(".glide__bullets").insertAdjacentHTML("beforeend", dotHTML);
+
+      // Actually initialize the glide / slider script
+      var glide = new _glidejs_glide__WEBPACK_IMPORTED_MODULE_0__["default"](".hero-slider", {
+        type: "carousel",
+        perView: 1,
+        autoplay: 3000
+      });
+      glide.mount();
+    }
+  }
+}
+/* harmony default export */ __webpack_exports__["default"] = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/MobileMenu.js":
+/*!***********************************!*\
+  !*** ./src/modules/MobileMenu.js ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+class MobileMenu {
+  constructor() {
+    this.menu = document.querySelector(".site-header__menu");
+    this.openButton = document.querySelector(".site-header__menu-trigger");
+    this.events();
+  }
+  events() {
+    this.openButton.addEventListener("click", () => this.openMenu());
+  }
+  openMenu() {
+    this.openButton.classList.toggle("fa-bars");
+    this.openButton.classList.toggle("fa-window-close");
+    this.menu.classList.toggle("site-header__menu--active");
+  }
+}
+/* harmony default export */ __webpack_exports__["default"] = (MobileMenu);
+
+/***/ }),
+
+/***/ "./src/modules/Search.js":
+/*!*******************************!*\
+  !*** ./src/modules/Search.js ***!
+  \*******************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class Search {
+  // 1. describe and create / initiate our object
+  constructor() {
+    // Assigns the div with the id search-overlay__results to the property this.resultsDiv
+    this.resultsDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-overlay__results");
+    // Add the classes to each event
+    this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".js-search-trigger");
+    this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay__close");
+    this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay");
+    // create the property searchField and assign the div with the id search-term to it
+    this.searchField = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-term");
+    this.events();
+    //create a property that will store information about the state of the overlay
+    this.isOverlayOpen = false;
+
+    //create a property to store information about the state of the spinner
+    this.isSpinnerVisible = false;
+
+    // declares an empty property that we will assign a value to later. will be used for spinning icon
+    this.previousValue;
+    // declares an empty property that we will assign a value to later 
+    this.typingTimer;
+  }
+
+  // 2. events
+  events() {
+    // adds openOverlay and closeOverlay methods to each  click event
+    this.openButton.on("click", this.openOverlay.bind(this));
+    this.closeButton.on("click", this.closeOverlay.bind(this));
+    // adds keyPressDispatcher method to the keyup event
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keydown", this.keyPressDispatcher.bind(this));
+    // assigns the method typingLogic to searchField when a key is pressed
+    this.searchField.on("keyup", this.typingLogic.bind(this));
+  }
+
+  // 3. methods (functions, action...)
+
+  //method to be performed on the div assigned to searchField
+  typingLogic() {
+    // if the value has changed. (the value won't be changed with arrow or other non typing keys)
+    if (this.searchField.val() != this.previousValue) {
+      // clear out the timer from below so that this.typingTimer does not reach 2 seconds and execute the anonymous function
+      clearTimeout(this.typingTimer);
+
+      //if the searchField val is not empty
+      if (this.searchField.val()) {
+        // If spinnerVisible is not true
+        if (!this.isSpinnerVisible) {
+          //add the div spinner-loader to this.resultsDiv
+          this.resultsDiv.html('<div class="spinner-loader"></div>');
+
+          // Sets this.isSpinnerVisible to true
+          this.isSpinnerVisible = true;
+        }
+
+        //sets a timeout with an anonymous function that will execute 2 seconds after the last key release
+        this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+      } else {
+        this.resultsDiv.html('');
+        this.isSpinnerVisible = false;
+      }
+    }
+
+    //assigns the value of this.searchField to the property this.previousValue
+    this.previousValue = this.searchField.val();
+  }
+  getResults() {
+    this.resultsDiv.html("imagine real search results here");
+    // Sets this.isSpinnerVisible to false
+    this.isSpinnerVisible = false;
+  }
+  keyPressDispatcher(e) {
+    // using e.keyCode will allow us to see the keycode for each key we press
+    //console.log(e.keyCode);
+
+    //Open the overlay with the method openOverlay as long as the letter s has been pressed, the overlay is 
+    // not already open, and there is no input or textarea already in focus
+    if (e.keyCode == 83 && !this.isOverlayOpen && !jquery__WEBPACK_IMPORTED_MODULE_0___default()("input, textarea").is(':focus')) {
+      this.openOverlay();
+    }
+
+    //assign the ESC button to the method closeOverlay
+    if (e.keyCode == 27 && this.isOverlayOpen) {
+      this.closeOverlay();
+    }
+  }
+  openOverlay() {
+    this.searchOverlay.addClass("search-overlay--active");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").addClass("body-no-scroll");
+
+    // set the state of isOverlayOpen to true
+    this.isOverlayOpen = true;
+  }
+  closeOverlay() {
+    this.searchOverlay.removeClass("search-overlay--active");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").removeClass("body-no-scroll");
+
+    // set the state of isOverlayOpen to false
+    this.isOverlayOpen = false;
+  }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Search);
+
+/***/ }),
+
+/***/ "./css/style.scss":
+/*!************************!*\
+  !*** ./css/style.scss ***!
+  \************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ (function(module) {
+
+module.exports = window["jQuery"];
+
+/***/ }),
 
 /***/ "./node_modules/@glidejs/glide/dist/glide.esm.js":
 /*!*******************************************************!*\
   !*** ./node_modules/@glidejs/glide/dist/glide.esm.js ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Glide)
+/* harmony export */   "default": function() { return /* binding */ Glide; }
 /* harmony export */ });
 /*!
- * Glide.js v3.5.2
- * (c) 2013-2021 Jędrzej Chałubek (https://github.com/jedrzejchalubek/)
+ * Glide.js v3.6.0
+ * (c) 2013-2022 Jędrzej Chałubek (https://github.com/jedrzejchalubek/)
  * Released under the MIT License.
  */
 
@@ -1500,6 +1809,16 @@ function exist(node) {
 
   return false;
 }
+/**
+ * Coerces a NodeList to an Array.
+ *
+ * @param  {NodeList} nodeList
+ * @return {Array}
+ */
+
+function toArray(nodeList) {
+  return Array.prototype.slice.call(nodeList);
+}
 
 var TRACK_SELECTOR = '[data-glide-el="track"]';
 function Html (Glide, Components, Events) {
@@ -1519,7 +1838,7 @@ function Html (Glide, Components, Events) {
      * Collect slides
      */
     collectSlides: function collectSlides() {
-      this.slides = Array.prototype.slice.call(this.wrapper.children).filter(function (slide) {
+      this.slides = toArray(this.wrapper.children).filter(function (slide) {
         return !slide.classList.contains(Glide.settings.classes.slide.clone);
       });
     }
@@ -3328,7 +3647,7 @@ function Controls (Glide, Components, Events) {
       }
 
       lists.forEach(function (list) {
-        list.forEach(function (element) {
+        toArray(list).forEach(function (element) {
           element.classList.remove(settings.classes.arrow.disabled);
         });
       });
@@ -3347,7 +3666,7 @@ function Controls (Glide, Components, Events) {
       }
 
       lists.forEach(function (list) {
-        list.forEach(function (element) {
+        toArray(list).forEach(function (element) {
           element.classList.add(settings.classes.arrow.disabled);
         });
       });
@@ -3502,11 +3821,11 @@ function Keyboard (Glide, Components, Events) {
     press: function press(event) {
       var perSwipe = Glide.settings.perSwipe;
 
-      if (event.keyCode === 39) {
+      if (event.code === 'ArrowRight') {
         Components.Run.make(Components.Direction.resolve("".concat(perSwipe, ">")));
       }
 
-      if (event.keyCode === 37) {
+      if (event.code === 'ArrowLeft') {
         Components.Run.make(Components.Direction.resolve("".concat(perSwipe, "<")));
       }
     }
@@ -3880,329 +4199,6 @@ var Glide = /*#__PURE__*/function (_Core) {
 
 
 
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _css_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/style.scss */ "./css/style.scss");
-/* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
-/* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
-/* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/GoogleMap */ "./src/modules/GoogleMap.js");
-/* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
- // Our modules / classes
-
-
-
-
- // Instantiate a new object using our modules/classes
-
-const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
-const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
-const googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
-const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"]();
-
-/***/ }),
-
-/***/ "./src/modules/GoogleMap.js":
-/*!**********************************!*\
-  !*** ./src/modules/GoogleMap.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class GMap {
-  constructor() {
-    document.querySelectorAll(".acf-map").forEach(el => {
-      this.new_map(el);
-    });
-  }
-
-  new_map($el) {
-    var $markers = $el.querySelectorAll(".marker");
-    var args = {
-      zoom: 16,
-      center: new google.maps.LatLng(0, 0),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map($el, args);
-    map.markers = [];
-    var that = this; // add markers
-
-    $markers.forEach(function (x) {
-      that.add_marker(x, map);
-    }); // center map
-
-    this.center_map(map);
-  } // end new_map
-
-
-  add_marker($marker, map) {
-    var latlng = new google.maps.LatLng($marker.getAttribute("data-lat"), $marker.getAttribute("data-lng"));
-    var marker = new google.maps.Marker({
-      position: latlng,
-      map: map
-    });
-    map.markers.push(marker); // if marker contains HTML, add it to an infoWindow
-
-    if ($marker.innerHTML) {
-      // create info window
-      var infowindow = new google.maps.InfoWindow({
-        content: $marker.innerHTML
-      }); // show info window when marker is clicked
-
-      google.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
-      });
-    }
-  } // end add_marker
-
-
-  center_map(map) {
-    var bounds = new google.maps.LatLngBounds(); // loop through all markers and create bounds
-
-    map.markers.forEach(function (marker) {
-      var latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
-      bounds.extend(latlng);
-    }); // only 1 marker?
-
-    if (map.markers.length == 1) {
-      // set center of map
-      map.setCenter(bounds.getCenter());
-      map.setZoom(16);
-    } else {
-      // fit to bounds
-      map.fitBounds(bounds);
-    }
-  } // end center_map
-
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GMap);
-
-/***/ }),
-
-/***/ "./src/modules/HeroSlider.js":
-/*!***********************************!*\
-  !*** ./src/modules/HeroSlider.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _glidejs_glide__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @glidejs/glide */ "./node_modules/@glidejs/glide/dist/glide.esm.js");
-
-
-class HeroSlider {
-  constructor() {
-    if (document.querySelector(".hero-slider")) {
-      // count how many slides there are
-      const dotCount = document.querySelectorAll(".hero-slider__slide").length; // Generate the HTML for the navigation dots
-
-      let dotHTML = "";
-
-      for (let i = 0; i < dotCount; i++) {
-        dotHTML += `<button class="slider__bullet glide__bullet" data-glide-dir="=${i}"></button>`;
-      } // Add the dots HTML to the DOM
-
-
-      document.querySelector(".glide__bullets").insertAdjacentHTML("beforeend", dotHTML); // Actually initialize the glide / slider script
-
-      var glide = new _glidejs_glide__WEBPACK_IMPORTED_MODULE_0__["default"](".hero-slider", {
-        type: "carousel",
-        perView: 1,
-        autoplay: 3000
-      });
-      glide.mount();
-    }
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
-
-/***/ }),
-
-/***/ "./src/modules/MobileMenu.js":
-/*!***********************************!*\
-  !*** ./src/modules/MobileMenu.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class MobileMenu {
-  constructor() {
-    this.menu = document.querySelector(".site-header__menu");
-    this.openButton = document.querySelector(".site-header__menu-trigger");
-    this.events();
-  }
-
-  events() {
-    this.openButton.addEventListener("click", () => this.openMenu());
-  }
-
-  openMenu() {
-    this.openButton.classList.toggle("fa-bars");
-    this.openButton.classList.toggle("fa-window-close");
-    this.menu.classList.toggle("site-header__menu--active");
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MobileMenu);
-
-/***/ }),
-
-/***/ "./src/modules/Search.js":
-/*!*******************************!*\
-  !*** ./src/modules/Search.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
-
-
-class Search {
-  // 1. describe and create / initiate our object
-  constructor() {
-    // Assigns the div with the id search-overlay__results to the property this.resultsDiv
-    this.resultsDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-overlay__results"); // Add the classes to each event
-
-    this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".js-search-trigger");
-    this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay__close");
-    this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay"); // create the property searchField and assign the div with the id search-term to it
-
-    this.searchField = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-term");
-    this.events(); //create a property that will store information about the state of the overlay
-
-    this.isOverlayOpen = false; //create a property to store information about the state of the spinner
-
-    this.isSpinnerVisible = false; // declares an empty property that we will assign a value to later. will be used for spinning icon
-
-    this.previousValue; // declares an empty property that we will assign a value to later 
-
-    this.typingTimer;
-  } // 2. events
-
-
-  events() {
-    // adds openOverlay and closeOverlay methods to each  click event
-    this.openButton.on("click", this.openOverlay.bind(this));
-    this.closeButton.on("click", this.closeOverlay.bind(this)); // adds keyPressDispatcher method to the keyup event
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keydown", this.keyPressDispatcher.bind(this)); // assigns the method typingLogic to searchField when a key is pressed
-
-    this.searchField.on("keyup", this.typingLogic.bind(this));
-  } // 3. methods (functions, action...)
-  //method to be performed on the div assigned to searchField
-
-
-  typingLogic() {
-    // if the value has changed. (the value won't be changed with arrow or other non typing keys)
-    if (this.searchField.val() != this.previousValue) {
-      // clear out the timer from below so that this.typingTimer does not reach 2 seconds and execute the anonymous function
-      clearTimeout(this.typingTimer); //if the searchField val is not empty
-
-      if (this.searchField.val()) {
-        // If spinnerVisible is not true
-        if (!this.isSpinnerVisible) {
-          //add the div spinner-loader to this.resultsDiv
-          this.resultsDiv.html('<div class="spinner-loader"></div>'); // Sets this.isSpinnerVisible to true
-
-          this.isSpinnerVisible = true;
-        } //sets a timeout with an anonymous function that will execute 2 seconds after the last key release
-
-
-        this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
-      } else {
-        this.resultsDiv.html('');
-        this.isSpinnerVisible = false;
-      }
-    } //assigns the value of this.searchField to the property this.previousValue
-
-
-    this.previousValue = this.searchField.val();
-  }
-
-  getResults() {
-    this.resultsDiv.html("imagine real search results here"); // Sets this.isSpinnerVisible to false
-
-    this.isSpinnerVisible = false;
-  }
-
-  keyPressDispatcher(e) {
-    // using e.keyCode will allow us to see the keycode for each key we press
-    //console.log(e.keyCode);
-    //Open the overlay with the method openOverlay as long as the letter s has been pressed, the overlay is 
-    // not already open, and there is no input or textarea already in focus
-    if (e.keyCode == 83 && !this.isOverlayOpen && !jquery__WEBPACK_IMPORTED_MODULE_0___default()("input, textarea").is(':focus')) {
-      this.openOverlay();
-    } //assign the ESC button to the method closeOverlay
-
-
-    if (e.keyCode == 27 && this.isOverlayOpen) {
-      this.closeOverlay();
-    }
-  }
-
-  openOverlay() {
-    this.searchOverlay.addClass("search-overlay--active");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").addClass("body-no-scroll"); // set the state of isOverlayOpen to true
-
-    this.isOverlayOpen = true;
-  }
-
-  closeOverlay() {
-    this.searchOverlay.removeClass("search-overlay--active");
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").removeClass("body-no-scroll"); // set the state of isOverlayOpen to false
-
-    this.isOverlayOpen = false;
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Search);
-
-/***/ }),
-
-/***/ "./css/style.scss":
-/*!************************!*\
-  !*** ./css/style.scss ***!
-  \************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "jquery":
-/*!*************************!*\
-  !*** external "jQuery" ***!
-  \*************************/
-/***/ ((module) => {
-
-module.exports = window["jQuery"];
-
 /***/ })
 
 /******/ 	});
@@ -4236,9 +4232,9 @@ module.exports = window["jQuery"];
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
 /******/ 			if(chunkIds) {
 /******/ 				priority = priority || 0;
 /******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
@@ -4252,7 +4248,7 @@ module.exports = window["jQuery"];
 /******/ 				var priority = deferred[i][2];
 /******/ 				var fulfilled = true;
 /******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
 /******/ 						chunkIds.splice(j--, 1);
 /******/ 					} else {
 /******/ 						fulfilled = false;
@@ -4267,50 +4263,50 @@ module.exports = window["jQuery"];
 /******/ 			}
 /******/ 			return result;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
+/******/ 		__webpack_require__.r = function(exports) {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// no baseURI
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
@@ -4331,17 +4327,17 @@ module.exports = window["jQuery"];
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
 /******/ 			var chunkIds = data[0];
 /******/ 			var moreModules = data[1];
 /******/ 			var runtime = data[2];
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
 /******/ 				for(moduleId in moreModules) {
 /******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
 /******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
@@ -4360,17 +4356,17 @@ module.exports = window["jQuery"];
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkfictional_university_theme"] = self["webpackChunkfictional_university_theme"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkgetslife_theme"] = self["webpackChunkgetslife_theme"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], function() { return __webpack_require__("./src/index.js"); })
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
